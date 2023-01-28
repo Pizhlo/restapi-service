@@ -1,0 +1,2 @@
+time="2023-01-28T22:25:28+03:00" level=info msg="create router" func="main.main()" file="app.go:15"
+time="2023-01-28T22:25:28+03:00" level=info msg="register user handler" func="main.main()" file="app.go:18"
