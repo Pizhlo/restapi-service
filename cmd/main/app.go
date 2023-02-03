@@ -9,7 +9,6 @@ import (
 	"path"
 	"path/filepath"
 	"rest_api_service/internal/config"
-	"rest_api_service/internal/user"
 	"rest_api_service/pkg/logging"
 	"time"
 )
@@ -21,9 +20,11 @@ func main() {
 
 	cfg := config.GetConfig()
 
-	logger.Info("register user handler")
-	handler := user.NewHandler(logger)
-	handler.Register(router)
+	//postgreSQLClient, err := postgresql.NewClient(context.TODO(), 3, cfg.Storage)
+	//if err != nil {
+	//	logger.Fatalf("%v", err)
+
+	logger.Info("register author handler")
 
 	start(router, cfg)
 }
@@ -45,7 +46,7 @@ func start(router *httprouter.Router, cfg *config.Config) {
 		socketPath := path.Join(appDir, "app.sock")
 
 		logger.Info("listen unix socket")
-		listener, err = net.Listen("unix", socketPath)
+		listener, listenErr = net.Listen("unix", socketPath)
 		logger.Infof("server is listening unix socket: %s", socketPath)
 	} else {
 		logger.Info("listen tcp")
@@ -64,5 +65,4 @@ func start(router *httprouter.Router, cfg *config.Config) {
 	}
 
 	logger.Fatal(server.Serve(listener))
-
 }
